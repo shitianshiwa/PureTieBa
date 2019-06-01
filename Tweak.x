@@ -69,7 +69,7 @@
 
 %end
 
-// 去掉首页视频 Feed
+// 去掉首页视频、直播 Feed
 
 %hook NSMutableArray
 
@@ -77,7 +77,6 @@
 {
 	if ([obj isKindOfClass:NSClassFromString(@"TBCFrsDataItem")]) {
 		if ([obj valueForKey:@"videoInfo"] || [obj valueForKey:@"alaLiveInfo"]) {
-			NSLog(@"---- xb videoInfo");
 			return;
 		}
 		return %orig;
