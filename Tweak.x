@@ -1,3 +1,5 @@
+#import <UIKit/UIKit.h>
+
 // 去掉开屏广告
 %hook TBCSplashLaunchADManager
 
@@ -57,6 +59,33 @@
 
 %end
 
+// 去掉贴吧内 FEED 流广告和帖子内广告
+%hook TBCLegoFactory
+
+- (id)itemArrayFromJson:(id)arg1 forObject:(id)arg2
+{
+	return nil;
+}
+
+%end
+
+// 去掉首页视频 Feed
+
+%hook NSMutableArray
+
+- (void)safeAddObject:(id)obj
+{
+	if ([obj isKindOfClass:NSClassFromString(@"TBCFrsDataItem")]) {
+		if ([obj valueForKey:@"videoInfo"] || [obj valueForKey:@"alaLiveInfo"]) {
+			NSLog(@"---- xb videoInfo");
+			return;
+		}
+		return %orig;
+	}
+	return %orig;
+}
+
+%end
 
 // 去掉 『我的』 页面广告
 %hook TBCSwanHistoryItem
